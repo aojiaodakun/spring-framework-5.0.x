@@ -19,8 +19,11 @@ public class Main {
 		// bean
 		AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext(AppConfig.class);
 		Arrays.stream(applicationContext.getBeanDefinitionNames()).forEach(System.out::println);
+		System.out.println("applicationContext.start");
+		applicationContext.start();
 
-
+		System.out.println("applicationContext.stop");
+		applicationContext.stop();
 //		applicationContext.registerBean("test11111", Test.class);
 //		System.out.println(applicationContext.getBean("test11111"));
 //		X object = applicationContext.getBean(X.class);

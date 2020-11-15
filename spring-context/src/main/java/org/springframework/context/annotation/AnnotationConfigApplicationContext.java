@@ -63,9 +63,16 @@ public class AnnotationConfigApplicationContext extends GenericApplicationContex
 	 * through {@link #register} calls and then manually {@linkplain #refresh refreshed}.
 	 */
 	public AnnotationConfigApplicationContext() {
-		// 加载spring内置的bean
+		/**
+		 * 加载spring内置的beanName
+		 * 1、实例化标准环境，加入系统变量、环境变量到propertySource、实例化propertyResolver，解析${}
+ 		 */
 		this.reader = new AnnotatedBeanDefinitionReader(this);
-		// 扫描器
+		/**
+		 * classPath扫描器
+		 * 1、设置默认的扫描注解类型（Component）、resourcePattern=**//*.class/
+		 * 2、设置enviroment(系统变量+环境变量)
+		 */
 		this.scanner = new ClassPathBeanDefinitionScanner(this);
 	}
 

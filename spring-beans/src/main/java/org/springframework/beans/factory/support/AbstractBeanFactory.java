@@ -243,6 +243,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 		Object bean;
 
 		// Eagerly check singleton cache for manually registered singletons.
+		// 循环依赖中的早期bean
 		Object sharedInstance = getSingleton(beanName);
 		if (sharedInstance != null && args == null) {
 			if (logger.isDebugEnabled()) {
@@ -262,6 +263,9 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 				throw new BeanCurrentlyInCreationException(beanName);
 			}
 
+			/**
+			 * 若有父容器，查看父容器是否包含此beanName，若有，则调parentBeanFactory.doGetBean获取bean
+			 */
 			// Check if bean definition exists in this factory.
 			BeanFactory parentBeanFactory = getParentBeanFactory();
 			if (parentBeanFactory != null && !containsBeanDefinition(beanName)) {
@@ -280,7 +284,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 					return parentBeanFactory.getBean(nameToLookup, requiredType);
 				}
 			}
-
+			// 标记bean已创建
 			if (!typeCheckOnly) {
 				markBeanAsCreated(beanName);
 			}
